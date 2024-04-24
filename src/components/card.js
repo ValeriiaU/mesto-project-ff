@@ -40,7 +40,7 @@ export function deleteCard (cardElemeent) {
 };
 
 
-export function likeCards (cardSimbol) {
+export function likeCard (cardSimbol) {
   cardSimbol.classList.toggle('card__like-button_is-active');
 };
 
