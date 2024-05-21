@@ -1,0 +1,16 @@
+.count {
+  position: absolute;
+  bottom: 15px;
+  right: 25px;
+  width: 10px;
+  height: 13px;
+  text-align: center;
+}
+
+.card__like-button-count {
+    font-family: Inter;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 15.73px;
+    color: black;
+  }

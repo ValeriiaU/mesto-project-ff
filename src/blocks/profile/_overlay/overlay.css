@@ -1,0 +1,32 @@
+.overlay-button {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+}
+
+.overlay__svg {
+    height: 100%;
+}
+
+.overlay__svg:hover {
+    background-image: url(../../../images/pencil-icon.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.overlay-button:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+
+
+
+
+
