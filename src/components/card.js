@@ -1,8 +1,9 @@
+import { checkingServersResponse } from '../index';
+
 const popupImege= document.querySelector('.popup_type_image');
 // @todo: Темплейт карточки
-export const template = document.querySelector('#card-template').content;
-// @todo: DOM узлы
-export const placesList = document.querySelector('.places__list');
+const template = document.querySelector('#card-template').content;
+
 // @todo: Функция создания карточки
 export function createCard(cardInfo, removeCard, cardLike, popupImageOpen, myId, removeApi, likeCount, cardunlike) {
   const newCard = template.querySelector('.places__item').cloneNode(true);
@@ -32,9 +33,6 @@ export function createCard(cardInfo, removeCard, cardLike, popupImageOpen, myId,
   likeButton.addEventListener('click', function() {
     if (!likeButton.classList.contains('card__like-button_is-active')) {
       likeCount(cardInfo._id)
-      .then(res => {
-        return res.json()
-      })
       .then(data => {
         if(data.likes.length === 1) {
           newCard.querySelector('.count').classList.add('card__like-button-count')
@@ -45,11 +43,11 @@ export function createCard(cardInfo, removeCard, cardLike, popupImageOpen, myId,
           cardLike(likeButton)
         }
       })
+      .catch((err) => {
+        console.log(err);
+      }); 
     } else {
       cardunlike(cardInfo._id)
-      .then(res => {
-        return res.json()
-      })
       .then(data => {
         if(data.likes.length === 0) {
           newCard.querySelector('.count').classList.remove('card__like-button-count')
@@ -73,10 +71,8 @@ export function createCard(cardInfo, removeCard, cardLike, popupImageOpen, myId,
     newCard.addEventListener('click', function(evt) {
       if(evt.target.classList.contains('card__delete-button')) {
         removeApi(cardInfo._id)
-        .then(res => {
-          if (res.ok) {
+        .then(data => {
             removeCard(newCard);
-          }
         })
         .catch((err) => {
           console.log(err);

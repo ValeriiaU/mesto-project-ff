@@ -1,34 +1,38 @@
-export function getUsersInformation() {
-    return fetch ('https://nomoreparties.co/v1/wff-cohort-13/users/me', {
-    headers: {
-        authorization: 'b831de0a-d6a1-4d69-8d59-4d7c5feea1c2'
-      }
-   })
-   .then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-  })
-   .then((res) => {
-    document.querySelector('.profile__title').textContent = res.name;
-    document.querySelector('.profile__description').textContent = res.about;
-    document.querySelector('.profile__image').style.backgroundImage = `url(${res.avatar})`;
-
-    return res._id;
-   });
+function checkingServersResponse(res) {
+  if(res.ok) {
+    return res.json()
+  }
+  return Promise.reject(`Error ${res.status}`)
 };
 
+
+const config = ({
+  commonUrl: 'https://nomoreparties.co/v1/wff-cohort-13/',
+  myToken: 'b831de0a-d6a1-4d69-8d59-4d7c5feea1c2'
+});
+
+
+export function getUsersInformation() {
+    return fetch (`${config.commonUrl}users/me`, {
+    headers: {
+        authorization: `${config.myToken}`
+      }
+   })
+   .then(res => {
+    return checkingServersResponse(res)
+   })
+};
+
+
 export function getCardsInformation() {
-  return fetch('https://nomoreparties.co/v1/wff-cohort-13/cards', {
+  return fetch(`${config.commonUrl}cards`, {
   headers: {
-    authorization: 'b831de0a-d6a1-4d69-8d59-4d7c5feea1c2'
+    authorization: `${config.myToken}`
   }
 })
-.then((res) => {
-  if (res.ok) {
-     return res.json()
-  }
-})
+.then(res => {
+  return checkingServersResponse(res)
+ })
 };
 
 const promises = [getUsersInformation(), getCardsInformation()];
@@ -40,25 +44,28 @@ export function getAllPromises() {
 
 
 export function editingProfile(nameInput, aboutInput) {
-  return fetch('https://nomoreparties.co/v1/wff-cohort-13/users/me', {
+  return fetch(`${config.commonUrl}users/me`, {
   method: 'PATCH',
   headers: {
-    authorization: 'b831de0a-d6a1-4d69-8d59-4d7c5feea1c2',
+    authorization: `${config.myToken}`,
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
     name: nameInput,
     about: aboutInput
   })
-}); 
+})
+.then(res => {
+  return checkingServersResponse(res)
+})
 };
 
 
 export function addNewCardPost(nameInput, linkInput) {
-return fetch('https://nomoreparties.co/v1/wff-cohort-13/cards', {
+return fetch(`${config.commonUrl}cards`, {
   method: 'POST',
   headers: {
-    authorization: 'b831de0a-d6a1-4d69-8d59-4d7c5feea1c2',
+    authorization: `${config.myToken}`,
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
@@ -66,50 +73,65 @@ return fetch('https://nomoreparties.co/v1/wff-cohort-13/cards', {
     link: linkInput
   })
 })
+.then(res => {
+  return checkingServersResponse(res)
+})
 };
 
 
 export function deleteCardApi(cardId) {
-  return fetch (`https://nomoreparties.co/v1/wff-cohort-13/cards/${cardId}`, {
+  return fetch (`${config.commonUrl}cards/${cardId}`, {
     method: 'DELETE',
     headers: {
-      authorization: 'b831de0a-d6a1-4d69-8d59-4d7c5feea1c2',
+      authorization: `${config.myToken}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       _id: cardId
     })
   })
+  .then(res => {
+    return checkingServersResponse(res)
+  })
 };
 
 
 export function addLikeApi(cardId) {
-  return fetch(`https://nomoreparties.co/v1/wff-cohort-13/cards/likes/${cardId}`, {
+  return fetch(`${config.commonUrl}cards/likes/${cardId}`, {
     method: 'PUT',
     headers: {
-      authorization: 'b831de0a-d6a1-4d69-8d59-4d7c5feea1c2'
+      authorization: `${config.myToken}`
     }})
+    .then(res => {
+      return checkingServersResponse(res)
+    })
 };
 
 
 export function unlikeCardApi(cardId) {
-  return fetch(`https://nomoreparties.co/v1/wff-cohort-13/cards/likes/${cardId}`, {
+  return fetch(`${config.commonUrl}cards/likes/${cardId}`, {
     method: 'DELETE',
     headers: {
-      authorization: 'b831de0a-d6a1-4d69-8d59-4d7c5feea1c2'
+      authorization: `${config.myToken}`
     }})
+    .then(res => {
+      return checkingServersResponse(res)
+    })
 };
 
 export function addAvatarApi(url) {
-  return fetch('https://nomoreparties.co/v1/wff-cohort-13/users/me/avatar', {
+  return fetch(`${config.commonUrl}users/me/avatar`, {
     method: 'PATCH',
     headers: {
-      authorization: 'b831de0a-d6a1-4d69-8d59-4d7c5feea1c2',
+      authorization: `${config.myToken}`,
       'Content-Type': 'application/json'
     },
      body: JSON.stringify({
       avatar: url
      })
+  })
+  .then (res => {
+    return checkingServersResponse(res)
   })
 };
 
