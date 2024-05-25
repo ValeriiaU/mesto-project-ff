@@ -79,6 +79,7 @@ const clearValidation = (formElement, config) => {
   const buttonElement = formElement.querySelector(config.submitButtonSelector);
   inputList.forEach((inputElement) => {
     hideInputError(formElement, inputElement, config);
+    buttonElement.classList.add(config.inactiveButtonClass);
   });
 
 };
