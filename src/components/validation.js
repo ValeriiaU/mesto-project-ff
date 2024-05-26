@@ -21,7 +21,6 @@ const hideInputError = (formElement, inputElement, config) => {
 const checkInputValidity = (formElement, inputElement, config) => {
   const regex = /^[a-zа-яё\s-]+$/i;
   const buttonElement = formElement.querySelector(config.submitButtonSelector);
-  console.log(inputElement)
   if (!regex.test(inputElement.value) && inputElement.type === 'text' && inputElement.value.length > 0) {
         // данные атрибута доступны у элемента инпута через ключевое слово dataset.
         // обратите внимание, что в js имя атрибута пишется в camelCase (да-да, в
@@ -76,10 +75,9 @@ const enableValidation = (config) => {
 
 const clearValidation = (formElement, config) => {
   const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
-  const buttonElement = formElement.querySelector(config.submitButtonSelector);
   inputList.forEach((inputElement) => {
-    hideInputError(formElement, inputElement, config);
-    buttonElement.classList.add(config.inactiveButtonClass);
+  hideInputError(formElement, inputElement, config);
+  disableSubmitButton(formElement, config)
   });
 
 };
@@ -109,5 +107,12 @@ const toggleButtonState = (inputList, buttonElement, config) => {
     buttonElement.classList.remove(config.inactiveButtonClass);
   }
 }; 
+
+
+function disableSubmitButton(formElement, config) {
+  const buttonElement = formElement.querySelector(config.submitButtonSelector);
+  buttonElement.disabled = true;
+  buttonElement.classList.add(config.inactiveButtonClass);
+}
 
 export { enableValidation, clearValidation }
